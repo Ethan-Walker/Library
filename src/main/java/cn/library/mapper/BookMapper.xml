@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.library.mapper.BookMapper" >
+  <resultMap id="BaseResultMap" type="cn.library.pojo.Book" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pics" property="pics" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="TINYINT" />
+    <result column="publish_year" property="publishYear" jdbcType="INTEGER" />
+    <result column="press" property="press" jdbcType="VARCHAR" />
+    <result column="book_version" property="bookVersion" jdbcType="TINYINT" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="book_position" property="bookPosition" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, cid, title, pics, STATUS, publish_year, press, book_version, author, book_position,
+    create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.library.pojo.BookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from book
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from book
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.library.pojo.BookExample" >
+    delete from book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.library.pojo.Book" >
+    insert into book (id, cid, title,
+    pics, STATUS, publish_year,
+    press, book_version, author,
+    book_position, create_time)
+    values (#{id,jdbcType=BIGINT}, #{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+    #{pics,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{publishYear,jdbcType=INTEGER},
+    #{press,jdbcType=VARCHAR}, #{bookVersion,jdbcType=TINYINT}, #{author,jdbcType=VARCHAR},
+    #{bookPosition,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.library.pojo.Book" >
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="pics != null" >
+        pics,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="publishYear != null" >
+        publish_year,
+      </if>
+      <if test="press != null" >
+        press,
+      </if>
+      <if test="bookVersion != null" >
+        book_version,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="bookPosition != null" >
+        book_position,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pics != null" >
+        #{pics,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="publishYear != null" >
+        #{publishYear,jdbcType=INTEGER},
+      </if>
+      <if test="press != null" >
+        #{press,jdbcType=VARCHAR},
+      </if>
+      <if test="bookVersion != null" >
+        #{bookVersion,jdbcType=TINYINT},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPosition != null" >
+        #{bookPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.library.pojo.BookExample" resultType="java.lang.Integer" >
+    select count(*) from book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update book
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.cid != null" >
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pics != null" >
+        pics = #{record.pics,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.publishYear != null" >
+        publish_year = #{record.publishYear,jdbcType=INTEGER},
+      </if>
+      <if test="record.press != null" >
+        press = #{record.press,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookVersion != null" >
+        book_version = #{record.bookVersion,jdbcType=TINYINT},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookPosition != null" >
+        book_position = #{record.bookPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update book
+    set id = #{record.id,jdbcType=BIGINT},
+    cid = #{record.cid,jdbcType=INTEGER},
+    title = #{record.title,jdbcType=VARCHAR},
+    pics = #{record.pics,jdbcType=VARCHAR},
+    STATUS = #{record.status,jdbcType=TINYINT},
+    publish_year = #{record.publishYear,jdbcType=INTEGER},
+    press = #{record.press,jdbcType=VARCHAR},
+    book_version = #{record.bookVersion,jdbcType=TINYINT},
+    author = #{record.author,jdbcType=VARCHAR},
+    book_position = #{record.bookPosition,jdbcType=VARCHAR},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.library.pojo.Book" >
+    update book
+    <set >
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pics != null" >
+        pics = #{pics,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="publishYear != null" >
+        publish_year = #{publishYear,jdbcType=INTEGER},
+      </if>
+      <if test="press != null" >
+        press = #{press,jdbcType=VARCHAR},
+      </if>
+      <if test="bookVersion != null" >
+        book_version = #{bookVersion,jdbcType=TINYINT},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPosition != null" >
+        book_position = #{bookPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.library.pojo.Book" >
+    update book
+    set cid = #{cid,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      pics = #{pics,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
+      publish_year = #{publishYear,jdbcType=INTEGER},
+      press = #{press,jdbcType=VARCHAR},
+      book_version = #{bookVersion,jdbcType=TINYINT},
+      author = #{author,jdbcType=VARCHAR},
+      book_position = #{bookPosition,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
